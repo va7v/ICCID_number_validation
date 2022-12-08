@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-CellOperator? operator = CellOperator.Tele2;
-
 void main() => runApp(const MyApp());
 
 class MyApp extends StatelessWidget {
@@ -46,7 +44,6 @@ class MyApp extends StatelessWidget {
   }
 }
 
-// Create a Form widget.
 class MyCustomForm extends StatefulWidget {
   const MyCustomForm({super.key});
 
@@ -56,10 +53,7 @@ class MyCustomForm extends StatefulWidget {
   }
 }
 
-// State class holds data related to the form.
 class MyCustomFormState extends State<MyCustomForm> {
-  // global key uniquely identifies the Form widget and allows validation of the form.
-  // a GlobalKey<FormState>, not a GlobalKey<MyCustomFormState>.
   final _formKey = GlobalKey<FormState>();
 
   @override
@@ -75,14 +69,14 @@ class MyCustomFormState extends State<MyCustomForm> {
             ),
             keyboardType: TextInputType.number,
             inputFormatters: <TextInputFormatter>[
-              FilteringTextInputFormatter.digitsOnly // фильтр - только числа
+              FilteringTextInputFormatter.digitsOnly
             ],
             validator: (value) {
               print('cmp $operator');
               if (value == null ||
                   value.isEmpty ||
                   value.length > 24 ||
-                  !isValidLuhn(value) && operator != CellOperator.Bee) {
+                  !isValidLuhn(value) && operator != CellOperator.bee) {
                 return 'Проверьте точность указания номера';
               }
               return null;
@@ -96,7 +90,7 @@ class MyCustomFormState extends State<MyCustomForm> {
                   onPressed: () {
                     if (_formKey.currentState!.validate()) {
                       ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(content: Text('Внесение карты в систему... ')),
+                        SnackBar(content: Text('Updating...    ${operator?.index} ($operator)')),
                       );
                     }
                   },
@@ -112,7 +106,6 @@ class MyCustomFormState extends State<MyCustomForm> {
 }
 
 bool isValidLuhn(String value) {
-  //java Character.getNumericValue(value.charAt(value.length() - 1));
   int sum = value.codeUnitAt(value.length - 1) - 48;
   int parity = value.length % 2;
   for (int i = value.length - 2; i >= 0; i--) {
@@ -126,7 +119,8 @@ bool isValidLuhn(String value) {
   return (sum % 10) == 0;
 }
 
-enum CellOperator { Tele2, Bee, Mega, Mts, Rtk, Motiv }
+enum CellOperator { tele2, bee, mega, mts, rtk, motiv }
+CellOperator? operator = CellOperator.tele2;
 
 class RadioBtStatefulWidget extends StatefulWidget {
   const RadioBtStatefulWidget({super.key});
@@ -143,7 +137,7 @@ class _RadioBtStatefulWidgetState extends State<RadioBtStatefulWidget> {
         ListTile(
           title: const Text('Tele2'),
           leading: Radio<CellOperator>(
-            value: CellOperator.Tele2,
+            value: CellOperator.tele2,
             groupValue: operator,
             onChanged: (CellOperator? value) {
               setState(() {
@@ -155,7 +149,7 @@ class _RadioBtStatefulWidgetState extends State<RadioBtStatefulWidget> {
         ListTile(
           title: const Text('Билайн'),
           leading: Radio<CellOperator>(
-            value: CellOperator.Bee,
+            value: CellOperator.bee,
             groupValue: operator,
             onChanged: (CellOperator? value) {
               setState(() {
@@ -167,7 +161,7 @@ class _RadioBtStatefulWidgetState extends State<RadioBtStatefulWidget> {
         ListTile(
           title: const Text('Мегафон'),
           leading: Radio<CellOperator>(
-            value: CellOperator.Mega,
+            value: CellOperator.mega,
             groupValue: operator,
             onChanged: (CellOperator? value) {
               setState(() {
@@ -179,7 +173,7 @@ class _RadioBtStatefulWidgetState extends State<RadioBtStatefulWidget> {
         ListTile(
           title: const Text('МТС'),
           leading: Radio<CellOperator>(
-            value: CellOperator.Mts,
+            value: CellOperator.mts,
             groupValue: operator,
             onChanged: (CellOperator? value) {
               setState(() {
@@ -191,7 +185,7 @@ class _RadioBtStatefulWidgetState extends State<RadioBtStatefulWidget> {
         ListTile(
           title: const Text('Ростелеком'),
           leading: Radio<CellOperator>(
-            value: CellOperator.Rtk,
+            value: CellOperator.rtk,
             groupValue: operator,
             onChanged: (CellOperator? value) {
               setState(() {
