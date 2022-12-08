@@ -21,12 +21,12 @@ class MyApp extends StatelessWidget {
           child: SizedBox(
             width: 360,
             child: ListView(
-              children: [
+              children: const [
                 Text(
                   'Выберите сотового оператора SIM карты:',
                   style: TextStyle(fontSize: 16),
                 ),
-                const RadioBtStatefulWidget(),
+                RadioBtStatefulWidget(),
                 SizedBox(
                   height: 12,
                 ),
@@ -34,7 +34,7 @@ class MyApp extends StatelessWidget {
                   'Введите номер напечатанный на SIM карте:',
                   style: TextStyle(fontSize: 16),
                 ),
-                const MyCustomForm(),
+                MyCustomForm(),
               ],
             ),
           ),
@@ -64,7 +64,7 @@ class MyCustomFormState extends State<MyCustomForm> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           TextFormField(
-            decoration: InputDecoration(
+            decoration: const InputDecoration(
               prefixIcon: Icon(Icons.sim_card),
             ),
             keyboardType: TextInputType.number,
@@ -72,7 +72,6 @@ class MyCustomFormState extends State<MyCustomForm> {
               FilteringTextInputFormatter.digitsOnly
             ],
             validator: (value) {
-              print('cmp $operator');
               if (value == null ||
                   value.isEmpty ||
                   value.length > 24 ||
